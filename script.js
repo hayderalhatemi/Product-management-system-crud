@@ -23,15 +23,6 @@ function getTotal()
 }
 
 
-
-
-
-
-
-
-
-
-
 // create product
 
 let dataPro;
@@ -40,9 +31,6 @@ if(localStorage.product != null){
 }else{
     dataPro = [];
 }
-
-
-
 
 submit.onclick = function(){
     let newPro = {
@@ -57,8 +45,9 @@ submit.onclick = function(){
     }
     dataPro.push(newPro)
     localStorage.setItem('product', JSON.stringify(dataPro))
-
+    // save localstorage
     clearData()
+    showData()
 }
 
 
@@ -76,11 +65,42 @@ function clearData(){
 }
 
 
-// save localstorage
-// clear inputs
 // read
-// count
+
+function showData(){
+    let table = '';
+    for(let i = 0; i < dataPro.length;i++){
+        table += `
+             <tr>
+                <td>${i}</td>
+                <td>${dataPro[i].tilte}</td>
+                <td>${dataPro[i].price}</td>
+                <td>${dataPro[i].taxes}</td>
+                <td>${dataPro[i].ads}</td>
+                <td>${dataPro[i].discount}</td>
+                <td>${dataPro[i].total}</td>
+                <td>${dataPro[i].category}</td>
+                <td><button id="update">update</button></td>
+                <td><button onclick='deleteData(${i})' id="delete">delete</button></td>
+
+            </tr>
+        `
+    }
+    document.getElementById('tbody').innerHTML = table;
+}
+showData()
+
+
 // delete 
+function deleteData(i){
+    dataPro.splice(i,1);
+    localStorage.product = JSON.stringify(dataPro);
+    showData()
+}
+
+
+
+// count
 // update
 // search
 // clean date
