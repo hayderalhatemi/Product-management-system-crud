@@ -9,6 +9,7 @@ let category = document.getElementById('category');
 let submit = document.getElementById('submit');
 
 // get total
+
 function getTotal()
 {
     if(price.value != ''){
@@ -22,7 +23,6 @@ function getTotal()
     }
 }
 
-
 // create product
 
 let dataPro;
@@ -31,6 +31,8 @@ if(localStorage.product != null){
 }else{
     dataPro = [];
 }
+
+// save localstorage
 
 submit.onclick = function(){
     let newPro = {
@@ -42,14 +44,20 @@ submit.onclick = function(){
         total:total.innerHTML,
         count:count.value,
         category:category.value,
+    };
+
+    if(newPro.count > 1){
+        for(let i = 0; i < newPro.count; i++) {
+            dataPro.push(newPro);
+        }
+        }else{
+            dataPro.push(newPro);
     }
-    dataPro.push(newPro)
+
     localStorage.setItem('product', JSON.stringify(dataPro))
-    // save localstorage
     clearData()
     showData()
-}
-
+};
 
 // clear inputs
 
@@ -64,7 +72,6 @@ function clearData(){
     category.value = '';
 }
 
-
 // read
 
 function showData(){
@@ -73,7 +80,7 @@ function showData(){
         table += `
              <tr>
                 <td>${i}</td>
-                <td>${dataPro[i].tilte}</td>
+                <td>${dataPro[i].title}</td>
                 <td>${dataPro[i].price}</td>
                 <td>${dataPro[i].taxes}</td>
                 <td>${dataPro[i].ads}</td>
@@ -90,7 +97,7 @@ function showData(){
     let btnDelete = document.getElementById('deleteAll');
     if(dataPro.length > 0){
         btnDelete.innerHTML = `
-        <button onclick='deleteAll()'>delete All</button>
+        <button onclick='deleteAll()'>delete All(${dataPro.length})</button>
         `
     }else{
         btnDelete.innerHTML = '';
@@ -98,8 +105,8 @@ function showData(){
 }
 showData()
 
+// delete
 
-// delete 
 function deleteData(i){
     dataPro.splice(i,1);
     localStorage.product = JSON.stringify(dataPro);
